@@ -272,6 +272,57 @@ export default function App() {
       <div className="hero-bottom-note">MANSI ♥ SCROLL TO FEEL THE LOVE <span>↓</span></div>
     </section>
 
+    <section className="photo-spotlight section-pad">
+      <motion.div
+        className="photo-card"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="photo-frame-wrapper">
+          <motion.div
+            className="photo-frame"
+            whileHover={{ scale: 1.02, rotate: 0 }}
+            initial={{ rotate: -1.5 }}
+          >
+            <div className="photo-glow" />
+            <div className="photo-inner">
+              <img
+                src="/mansi.jpg"
+                alt="Mansi"
+                className="mansi-image"
+              />
+              <div className="photo-badge">
+                <Heart size={14} fill="currentColor" />
+                <span>My favorite view ♥</span>
+              </div>
+            </div>
+            <div className="photo-polaroid-caption">
+              <span>Mansi, you bring light into everything ✨</span>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="photo-copy">
+          <div className="photo-tag"><Sparkles size={16} /> THE MOST BEAUTIFUL SMILE</div>
+          <h2>My Favorite View<br />in the <em>Whole World</em></h2>
+          <p className="photo-quote">
+            "Out of 8 billion people on this planet, my eyes will forever search for only you, Mansi.
+            Your smile has a way of melting every worry, and your gentle soul makes this entire world feel like a warmer, safer place."
+          </p>
+          <p className="photo-subquote">
+            Seeing you smile like this is my favorite moment in every single day. You are effortlessly beautiful, inside and out. ♥
+          </p>
+          <div className="photo-stats">
+            <div className="stat-pill"><span>🌷</span> Pure Kindness</div>
+            <div className="stat-pill"><span>✨</span> Endless Magic</div>
+            <div className="stat-pill"><span>💖</span> 100% Mine?</div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+
     <section className="story section-pad">
       <motion.div className="story-card" initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }}>
         <div className="story-icon"><Stars size={20} /></div>
@@ -422,7 +473,10 @@ export default function App() {
         <motion.div className="celebration-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
           <div className="confetti" aria-hidden="true">{Array.from({ length: 42 }, (_, i) => <motion.span key={i} style={{ left: `${(i * 23) % 100}%`, animationDelay: `${(i % 9) * 0.16}s` }}>♥</motion.span>)}</div>
           <motion.div className="success-card" initial={{ scale: 0.75, y: 25 }} animate={{ scale: 1, y: 0 }} transition={{ type: "spring", damping: 14 }}>
-            <div className="success-heart">💖</div>
+            <div className="success-avatar-wrap">
+              <img src="/mansi.jpg" alt="Mansi" className="success-avatar" />
+              <span className="success-heart-badge">💖</span>
+            </div>
             <p className="section-kicker">THIS IS MY FAVOURITE MOMENT, MANSI ♥</p>
             <h2>Mansi, you just made<br />my world <em>brighter!</em></h2>
             <p>I can't stop smiling, Mansi. Your wishes are on their way to me. Here's to more laughter, little adventures, and beautiful memories together. ❤️</p>
