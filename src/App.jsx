@@ -49,7 +49,45 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
   const [noCount, setNoCount] = useState(0);
   const [musicOn, setMusicOn] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(0);
   const audioRef = useRef(null);
+
+  const photos = useMemo(() => [
+    {
+      id: 0,
+      src: "/mansi-2.jpg",
+      title: "Radiant & Unstoppable",
+      tag: "THE MOST BEAUTIFUL SMILE",
+      caption: "Mansi, you bring light into everything ✨",
+      quote: "Out of 8 billion people on this planet, my eyes will forever search for only you, Mansi. That spontaneous, carefree laugh of yours is my absolute favorite sight in the world.",
+      subquote: "Every time you smile like this, you make the whole world feel brighter and so much more alive. ♥",
+      badge: "Pure Radiance ♥",
+      pills: ["✨ Pure Magic", "🌸 Effortless Grace", "💖 My Everything"]
+    },
+    {
+      id: 1,
+      src: "/mansi-3.jpg",
+      title: "Grace & Elegance",
+      tag: "THE SWEETEST SOUL",
+      caption: "Elegance in every glance, Mansi ♥",
+      quote: "You have a beauty that isn't just about how stunning you look — it's about the warmth in your eyes and the gentle kindness you carry in your heart wherever you go.",
+      subquote: "In you, Mansi, I found someone who feels like home. The most gorgeous girl, inside and out. ♥",
+      badge: "Timeless Beauty ♥",
+      pills: ["🌷 Pure Kindness", "👑 Royalty", "❤️ Forever Mine?"]
+    },
+    {
+      id: 2,
+      src: "/mansi.jpg",
+      title: "Pure Comfort & Cuteness",
+      tag: "GENTLEST HEART",
+      caption: "Cuteness overload (and our fluffy friend) 🐾♥",
+      quote: "The tenderness with which you love and care for the little things is the most precious thing about you. You have a heart of pure gold, Mansi.",
+      subquote: "Seeing you so joyful and cozy warms my heart more than words could ever describe. ♥",
+      badge: "Sweetest Soul ♥",
+      pills: ["🐾 Fluffy Hugs", "🥰 Pure Love", "💌 My Whole World"]
+    }
+  ], []);
+
   const [formData, setFormData] = useState({
     changeThing: "",
     doMore: "",
@@ -277,48 +315,71 @@ export default function App() {
         className="photo-card"
         initial={{ opacity: 0, y: 35 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8 }}
       >
         <div className="photo-frame-wrapper">
           <motion.div
+            key={photos[selectedPhoto].id}
             className="photo-frame"
-            whileHover={{ scale: 1.02, rotate: 0 }}
-            initial={{ rotate: -1.5 }}
+            initial={{ opacity: 0.85, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
           >
             <div className="photo-glow" />
             <div className="photo-inner">
               <img
-                src="/mansi.jpg"
+                src={photos[selectedPhoto].src}
                 alt="Mansi"
                 className="mansi-image"
               />
               <div className="photo-badge">
                 <Heart size={14} fill="currentColor" />
-                <span>My favorite view ♥</span>
+                <span>{photos[selectedPhoto].badge}</span>
               </div>
             </div>
             <div className="photo-polaroid-caption">
-              <span>Mansi, you bring light into everything ✨</span>
+              <span>{photos[selectedPhoto].caption}</span>
             </div>
           </motion.div>
+
+          <div className="photo-thumbnails">
+            {photos.map((p, idx) => (
+              <button
+                key={p.id}
+                type="button"
+                className={`thumb-btn ${selectedPhoto === idx ? "active" : ""}`}
+                onClick={() => setSelectedPhoto(idx)}
+                aria-label={`View photo ${idx + 1}`}
+              >
+                <img src={p.src} alt={`Thumbnail ${idx + 1}`} />
+                {selectedPhoto === idx && <span className="thumb-heart">♥</span>}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="photo-copy">
-          <div className="photo-tag"><Sparkles size={16} /> THE MOST BEAUTIFUL SMILE</div>
-          <h2>My Favorite View<br />in the <em>Whole World</em></h2>
-          <p className="photo-quote">
-            "Out of 8 billion people on this planet, my eyes will forever search for only you, Mansi.
-            Your smile has a way of melting every worry, and your gentle soul makes this entire world feel like a warmer, safer place."
-          </p>
-          <p className="photo-subquote">
-            Seeing you smile like this is my favorite moment in every single day. You are effortlessly beautiful, inside and out. ♥
-          </p>
-          <div className="photo-stats">
-            <div className="stat-pill"><span>🌷</span> Pure Kindness</div>
-            <div className="stat-pill"><span>✨</span> Endless Magic</div>
-            <div className="stat-pill"><span>💖</span> 100% Mine?</div>
-          </div>
+          <motion.div
+            key={`copy-${photos[selectedPhoto].id}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <div className="photo-tag"><Sparkles size={16} /> {photos[selectedPhoto].tag}</div>
+            <h2>{photos[selectedPhoto].title}<br /><em>Mansi</em> ♥</h2>
+            <p className="photo-quote">
+              "{photos[selectedPhoto].quote}"
+            </p>
+            <p className="photo-subquote">
+              {photos[selectedPhoto].subquote}
+            </p>
+            <div className="photo-stats">
+              {photos[selectedPhoto].pills.map((pill, i) => (
+                <div key={i} className="stat-pill">{pill}</div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </section>
