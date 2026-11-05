@@ -135,6 +135,41 @@ export default function App() {
     }
   }, [showSplash]);
 
+  // Notify whenever someone visits the website
+  useEffect(() => {
+    try {
+      const hasNotified = sessionStorage.getItem("mansi_site_visited");
+      if (!hasNotified) {
+        sessionStorage.setItem("mansi_site_visited", "true");
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        const visitTime = new Date().toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          dateStyle: "full",
+          timeStyle: "medium"
+        });
+
+        const message = [
+          "👀✨ SOMEONE JUST OPENED YOUR WEBSITE FOR MANSI!",
+          `⏰ Time: ${visitTime}`,
+          `📱 Device: ${isMobile ? "Mobile Phone 📱" : "Laptop/Desktop 💻"}`,
+          `🖥 Screen size: ${window.innerWidth}x${window.innerHeight}`,
+          `🔗 Source: ${document.referrer ? document.referrer : "Direct link (WhatsApp/Chat)"}`,
+          "",
+          "Keep an eye out, she might be reading your speech right now! 💖"
+        ].join("\n");
+
+        emailjs.send(
+          "service_jd5o3iw",
+          "template_55h4gej",
+          { message },
+          "xNrdwiisduTOibjFd"
+        ).catch(() => {});
+      }
+    } catch {
+      // Ignore storage errors in private mode
+    }
+  }, []);
+
   const handleFormChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
